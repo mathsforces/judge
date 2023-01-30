@@ -23,11 +23,17 @@ jobs:
       - name: Setup Lean 3
         run: wget -q https://raw.githubusercontent.com/leanprover-community/mathlib-tools/master/scripts/install_debian.sh && bash install_debian.sh ; rm -f install_debian.sh && source ~/.profile
 
+      - name: Configure Lean
+        run: |
+          source ~/.profile
+          leanpkg configure
+          leanproject get-mathlib-cache
+
       # Runs a set of commands using the runners shell
       - name: Setup source code file
         env: 
           code: ${{ github.event.client_payload.code }}
-        run: echo "$code" > sol.lean
+        run: echo "$code" >> sol.lean
         
       - name: Lean 
         continue-on-error: true
