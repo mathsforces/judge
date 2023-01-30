@@ -2,7 +2,7 @@
 name = "lean3_judge"
 version = "1.0"
 lean_version = "leanprover-community/lean:3.50.3"
-path = "lean/src"
+path = "."
 
 [dependencies]
 mathlib = {git = "https://github.com/leanprover-community/mathlib", rev = "68d1483e8a718ec63219f0e227ca3f0140361086"}
