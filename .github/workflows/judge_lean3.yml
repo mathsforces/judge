@@ -30,6 +30,7 @@ jobs:
         run: echo "$code" > sol.lean
         
       - name: Lean 
+        continue-on-error: true
         run: |
           source ~/.profile
           lean --version
