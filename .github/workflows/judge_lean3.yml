@@ -27,11 +27,11 @@ jobs:
       - name: Setup source code file
         env: 
           code: ${{ github.event.client_payload.code }}
-        run: echo "$code" > sol.lean && cat sol.lean
+        run: echo "$code" > sol.lean && cat sol.lean && ls
         
       - name: Lean 
         run:
-          lean --make sol.lean 2>err.log 1>out.log
+          lean --version && lean --make sol.lean 2>err.log 1>out.log
 
       - name: Upload out.log
         uses: actions/upload-artifact@v3.1.2
