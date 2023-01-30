@@ -28,7 +28,7 @@ jobs:
         env: 
           code: ${{ github.event.client_payload.code }}
         run: |
-          echo $code > sol.lean
+          echo "$code" > sol.lean
           lean --make sol.lean 2>err.log 1>out.log
       
       - name: Upload out.log
