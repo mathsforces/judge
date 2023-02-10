@@ -42,15 +42,21 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Setup source code file
         env: 
-          code: ${{ github.event.client_payload.code }}
-        run: echo "$code" >> sol.lean
-        
+          def: ${{ github.event.client_payload.def }}
+          submission: ${{ github.event.client_payload.submission }}
+          check: ${{ github.event.client_payload.check }}
+        run: |
+          printf '%s' "$def" > def.lean
+          printf '%s' "$submission" > submission.lean
+          printf '%s' "$check" > check.lean
+
       - name: Lean 
         continue-on-error: true
         run: |
           source ~/.profile
           lean --version
-          lean --make sol.lean 2>err.log 1>out.log
+          lean check.lean -E check.out --old-oleans --json --only-export=main 2>>err.log 1>>out.log
+          leanchecker check.out main 2>>err.log 1>>out.log
 
       - name: Upload sol.lean
         uses: actions/upload-artifact@v3.1.2
