@@ -20,9 +20,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Masking Code Input
-        env: 
-          code: ${{ github.event.client_payload.code }}
-        run: echo "::add-mask::$code"
+        run: echo "::add-mask::${{ github.event.client_payload.code }}"
 
       - name: Setup Lean 3
         run: |
