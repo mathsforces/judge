@@ -19,9 +19,21 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
+      - name: Masking Code Input
+        env: 
+          code: ${{ github.event.client_payload.code }}
+        run: echo "::add-mask::$code"
+
       - name: Setup Lean 3
-        run: wget -q https://raw.githubusercontent.com/leanprover-community/mathlib-tools/master/scripts/install_debian.sh && bash install_debian.sh ; rm -f install_debian.sh && source ~/.profile
+        run: |
+          wget https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh
+          bash elan-init.sh -y
+          rm elan-init.sh
+          python3 -m pip install --user pipx
+          python3 -m pipx ensurepath
+          . ~/.profile
+          pipx install mathlibtools
+          source ~/.profile
 
       - name: Configure Lean
         run: |
