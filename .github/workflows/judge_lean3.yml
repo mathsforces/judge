@@ -51,12 +51,6 @@ jobs:
           lean check.lean -E check.out --old-oleans --json --only-export=main 2>>err.log 1>>out.log
           leanchecker check.out main 2>>err.log 1>>out.log
 
-      - name: Upload sol.lean
-        uses: actions/upload-artifact@v3.1.2
-        with:
-          name: sol.lean 
-          path: sol.lean
-
       - name: Upload out.log
         uses: actions/upload-artifact@v3.1.2
         with:
