@@ -19,9 +19,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - name: Masking Code Input
-        run: echo "::add-mask::${{ github.event.client_payload.code }}"
-
       - name: Setup Lean 3
         run: |
           wget https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh
