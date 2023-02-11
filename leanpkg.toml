@@ -1,8 +1,8 @@
 [package]
 name = "lean3_judge"
 version = "1.0"
-lean_version = "leanprover-community/lean:3.42.1"
+lean_version = "leanprover-community/lean:3.50.3"
 path = "."
 
 [dependencies]
-mathlib = {git = "https://github.com/leanprover-community/mathlib", rev = "cb2b02fff213ed6f65bebd64446baac64137dcda"}
+mathlib = {git = "https://github.com/leanprover-community/mathlib", rev = "806c0bb86f6128cfa2f702285727518eb5244390"}
