@@ -42,11 +42,11 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Setup source code file
         env: 
-          def: ${{ github.event.client_payload.def }}
+          defs: ${{ github.event.client_payload.defs }}
           submission: ${{ github.event.client_payload.submission }}
           check: ${{ github.event.client_payload.check }}
         run: |
-          printf '%s' "$def" > def.lean
+          printf '%s' "$defs" > defs.lean
           printf '%s' "$submission" > submission.lean
           printf '%s' "$check" > check.lean
 
