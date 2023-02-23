@@ -72,11 +72,11 @@ async function main() {
           judgerComments.push("received checker stderr")
         }
         const outputs = checkStdOut.split("\n");
-        if (outputs.length === 0) {
+        if (outputs.length < 3) {
           result = "FAILED";
           judgerComments.push("checker should output at least one line of output")
         } else {
-          outputs.slice(0, -1).forEach((line) => {
+          outputs.slice(0, -3).forEach((line) => {
             if (!AXIOMS.includes(line)) {
               result = "FAILED";
               judgerComments.push("checker reports extra axioms")
