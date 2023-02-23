@@ -39,7 +39,7 @@ async function main() {
 
       console.log("Checking");
       exec("leanchecker check.out main", (error, stdout, stderr) => {
-        const checkSysErr = error ? error.message : null;
+        const checkSysErr = error ? error.message : "";
         const checkStdErr = stderr;
         const checkStdOut = stdout;
         const judgerComments: string[] = []
