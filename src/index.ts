@@ -10,16 +10,16 @@ const JUDGER_SECRET = process.env.JUDGER_SECRET!;
 const API_ENDPOINT = process.env.API_ENDPOINT!;
 
 async function main() {
-  const submission: Submission & Problem = await axios.get(`${API_ENDPOINT}/${SUBMISSION_ID}`, {
+  const submission: Submission & { problem: Problem} = (await axios.get(`${API_ENDPOINT}/${SUBMISSION_ID}`, {
     auth: {
       username: "judger",
       password: JUDGER_SECRET!,
     },
-  });
+  })).data;
 
   // set up files
-  fs.writeFileSync("check.lean", submission.check)
-  fs.writeFileSync("defs.lean", submission.defs)
+  fs.writeFileSync("check.lean", submission.problem.check)
+  fs.writeFileSync("defs.lean", submission.problem.defs)
   fs.writeFileSync("submission.lean", submission.submission)
 
   // compile
