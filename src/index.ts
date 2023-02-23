@@ -42,14 +42,16 @@ async function main() {
         const checkSysErr = error ? error.message : null;
         const checkStdErr = stderr;
         const checkStdOut = stdout;
-
+        const judgerComments: string[] = []
         // calculate result
         let result: SubmissionResult = "PASS";
         if (compileSysErr !== "") {
           result = "FAILED";
+          judgerComments.push("compile system error")
         }
         if (compileStdErr !== "") {
           result = "FAILED";
+          judgerComments.push("received compile stderr")
         }
         compileStdOut.split("\n").forEach((line) => {
           if (line === "") {
@@ -58,27 +60,32 @@ async function main() {
           const output: LeanOutput = JSON.parse(line);
           if (output.severity === 'error' || output.severity === 'warning') {
             result = "FAILED"
+            judgerComments.push("received warning or error messages from lean")
           }
         });
         if (checkSysErr !== "") {
           result = "FAILED";
+          judgerComments.push("check system error")
         }
         if (checkStdErr !== "") {
           result = "FAILED";
+          judgerComments.push("received checker stderr")
         }
         const outputs = checkStdOut.split("\n");
         if (outputs.length === 0) {
           result = "FAILED";
+          judgerComments.push("checker should output at least one line of output")
         } else {
           outputs.slice(0, -1).forEach((line) => {
             if (!AXIOMS.includes(line)) {
               result = "FAILED";
+              judgerComments.push("checker reports extra axioms")
               return;
             }
           });
         }
         const END_TIME = new Date();
-        const judgerComment = "TODO:";
+        const judgerComment = judgerComments.join("\n");
         // upload result
         axios.post(
           API_ENDPOINT,
