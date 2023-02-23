@@ -24,6 +24,9 @@ jobs:
           leanproject get-mathlib-cache
 
       - name: Judge
+        env:
+          API_ENDPOINT: ${{ secrets.API_ENDPOINT }}
+          SUBMISSION_ID: ${{ github.event.client_payload.submission_id }}
         run: |
           source ~/.profile
           npm install
