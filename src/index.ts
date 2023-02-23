@@ -1,5 +1,5 @@
 import * as dotenv from "dotenv";
-import { spawn } from "node:child_process";
+import { exec, spawn } from "node:child_process";
 import fs from 'fs';
 import axios from "axios";
 import { Problem, Submission } from "./types";
@@ -23,28 +23,36 @@ async function main() {
   fs.writeFileSync("submission.lean", submission.submission)
 
   // compile
-  const compile = spawn("lean", [
-    "check.lean",
-    "-E",
-    "check.out",
-    "--old-oleans",
-    "--json",
-    "--only-export=main",
-  ]);
-  compile.stdout.on("data", (data) => {
-    console.log(`stdout: ${data}`);
+  console.log("compile")
+  exec('lean check.lean -E check.out --old-oleans --json --only-export=main', (error, stdout, stderr) => {
+    if (error) {
+      console.error(`error: ${error.message}`);
+      return;
+    }
+  
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+      return;
+    }
+  
+    console.log(`stdout:\n${stdout}`);
   });
-  compile.stderr.on("data", (data) => {
-    console.log(`stderr: ${data}`);
-  });
+  
 
   // run checks
-  const check = spawn("leanchecker", ["check.out", "main"]);
-  check.stdout.on("data", (data) => {
-    console.log(`stdout: ${data}`);
-  });
-  check.stderr.on("data", (data) => {
-    console.log(`stderr: ${data}`);
+  console.log("check")
+  exec('leanchecker check.out main', (error, stdout, stderr) => {
+    if (error) {
+      console.error(`error: ${error.message}`);
+      return;
+    }
+  
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+      return;
+    }
+  
+    console.log(`stdout:\n${stdout}`);
   });
 
   // TODO: calculate result
