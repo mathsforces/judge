@@ -1,5 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
 name: judge lean3
 
 on:
@@ -22,39 +20,11 @@ jobs:
           python3 -m pipx ensurepath
           . ~/.profile
           pipx install mathlibtools
-          source ~/.profile
-
-      - name: Configure Lean
-        run: |
-          source ~/.profile
           leanpkg configure
           leanproject get-mathlib-cache
 
-      # Runs a set of commands using the runners shell
-      - name: Setup source code file
-        run: |
-          printf '%s' "${{ github.event.client_payload.defs }}" > defs.lean
-          printf '%s' "${{ github.event.client_payload.submission }}" > submission.lean
-          printf '%s' "${{ github.event.client_payload.check }}" > check.lean
-
-      - name: Lean 
-        continue-on-error: true
+      - name: Judge
         run: |
           source ~/.profile
-          lean --version
-          lean check.lean -E check.out --old-oleans --json --only-export=main 2>>err.log 1>>out.log
-          leanchecker check.out main 2>>err.log 1>>out.log
-
-      - name: Upload out.log
-        uses: actions/upload-artifact@v3.1.2
-        with:
-          name: out.log 
-          path: out.log
-
-      - name: Upload err.log
-        uses: actions/upload-artifact@v3.1.2
-        with:
-          name: err.log
-          path: err.log
-
+          npm run start
       
