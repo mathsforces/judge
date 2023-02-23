@@ -52,6 +52,9 @@ async function main() {
           result = "FAILED";
         }
         compileStdOut.split("\n").forEach((line) => {
+          if (line === "") {
+            return;
+          }
           const output: LeanOutput = JSON.parse(line);
           if (output.severity === 'error' || output.severity === 'warning') {
             result = "FAILED"
