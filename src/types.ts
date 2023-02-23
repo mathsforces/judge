@@ -1,13 +1,6 @@
-export enum SubmissionStatus {
-  PENDING,
-  JUDGING,
-  COMPLETED,
-}
+export type SubmissionStatus = "PENDING" | "JUDGING" | "COMPLETED";
 
-export enum SubmissionResult {
-  PASS,
-  FAILED,
-}
+export type SubmissionResult = "PASS" | "FAILED";
 
 export type Submission = {
   id: number;
@@ -26,4 +19,15 @@ export type Submission = {
 export type Problem = {
   defs: string;
   check: string;
-}
+};
+
+export type Severity = "info" | "warning" | "error"
+
+export type LeanOutput = {
+  caption: string;
+  file_name: string;
+  pos_col: number;
+  pos_line: number;
+  severity: Severity;
+  text: string;
+};
