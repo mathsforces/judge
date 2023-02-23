@@ -1,15 +1,15 @@
-enum SubmissionStatus {
+export enum SubmissionStatus {
   PENDING,
   JUDGING,
   COMPLETED,
 }
 
-enum SubmissionResult {
+export enum SubmissionResult {
   PASS,
   FAILED,
 }
 
-type Submission = {
+export type Submission = {
   id: number;
   createdAt: string;
   judgingStartedAt: string | null;
@@ -23,7 +23,7 @@ type Submission = {
   problemId: number;
 };
 
-type Problem = {
+export type Problem = {
   defs: string;
   check: string;
 }

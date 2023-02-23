@@ -2,6 +2,7 @@ import * as dotenv from "dotenv";
 import { spawn } from "node:child_process";
 import fs from 'fs';
 import axios from "axios";
+import { Problem, Submission } from "./types";
 dotenv.config();
 
 const SUBMISSION_ID = Number.parseInt(process.env.SUBMISSION_ID!);
