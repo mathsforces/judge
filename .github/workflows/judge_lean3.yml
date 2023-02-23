@@ -26,5 +26,6 @@ jobs:
       - name: Judge
         run: |
           source ~/.profile
+          npm install
           npm run start
       
