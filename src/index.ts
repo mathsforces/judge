@@ -23,6 +23,11 @@ async function main() {
     })
   ).data;
   const START_TIME = new Date();
+  if (submission as any === 'No pending job.') {
+    console.log('No pending job.')
+    return
+  }
+  
   // set up files
   fs.writeFileSync("check.lean", submission.problem.check);
   fs.writeFileSync("defs.lean", submission.problem.defs);
