@@ -1,4 +1,4 @@
-name: judge lean3
+name: Judge Lean 3
 
 on:
   repository_dispatch:
