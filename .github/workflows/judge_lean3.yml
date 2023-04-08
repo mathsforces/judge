@@ -12,6 +12,21 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      
+      - name: Cache Lean 3
+        id: cache-lean3
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-lean3-mathlib3
+        with:
+          path: |
+            ~/.elan
+            ~/.profile
+            ~/.mathlib
+            _target
+          key: ${{ runner.os }}-build-${{ hashFiles('**/leanpkg.toml') }}
+
+      # - if: ${{ steps.cache-lean3.outputs.cache-hit != 'true' }}
       - name: Setup Lean 3
         run: |
           wget https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh
