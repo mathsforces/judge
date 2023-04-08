@@ -3,6 +3,7 @@ name: judge lean3
 on:
   repository_dispatch:
     types: [lean3]
+  workflow_dispatch:
 
 jobs:
   judge:
