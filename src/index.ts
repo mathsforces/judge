@@ -13,14 +13,13 @@ const AXIOMS = [
   "axiom classical.choice : Π {α : Sort u}, nonempty α -> α",
   "axiom quot.sound : Π {α : Sort u}, Π {r : α -> α -> Prop}, Π {a b : α}, r a b -> quot.mk r a = quot.mk r b",
 ];
-const AUTH = {
-  username: "judger",
-  password: JUDGER_SECRET,
-};
+
 async function main() {
   const submission: Submission & { problem: Problem } = (
     await axios.get(API_ENDPOINT, {
-      auth: AUTH,
+      headers: {
+        Authorization: `Bearer ${JUDGER_SECRET}`,
+      },
     })
   ).data;
   const START_TIME = new Date();
@@ -42,44 +41,46 @@ async function main() {
         const checkSysErr = error ? error.message : "";
         const checkStdErr = stderr;
         const checkStdOut = stdout;
-        const judgerComments: string[] = []
+        const judgerComments: string[] = [];
         // calculate result
         let result: SubmissionResult = "PASS";
         if (compileSysErr !== "") {
           result = "FAILED";
-          judgerComments.push("compile system error")
+          judgerComments.push("compile system error");
         }
         if (compileStdErr !== "") {
           result = "FAILED";
-          judgerComments.push("received compile stderr")
+          judgerComments.push("received compile stderr");
         }
         compileStdOut.split("\n").forEach((line) => {
           if (line === "") {
             return;
           }
           const output: LeanOutput = JSON.parse(line);
-          if (output.severity === 'error' || output.severity === 'warning') {
-            result = "FAILED"
-            judgerComments.push("received warning or error messages from lean")
+          if (output.severity === "error" || output.severity === "warning") {
+            result = "FAILED";
+            judgerComments.push("received warning or error messages from lean");
           }
         });
         if (checkSysErr !== "") {
           result = "FAILED";
-          judgerComments.push("check system error")
+          judgerComments.push("check system error");
         }
         if (checkStdErr !== "") {
           result = "FAILED";
-          judgerComments.push("received checker stderr")
+          judgerComments.push("received checker stderr");
         }
         const outputs = checkStdOut.split("\n");
         if (outputs.length < 3) {
           result = "FAILED";
-          judgerComments.push("checker should output at least one line of output")
+          judgerComments.push(
+            "checker should output at least one line of output"
+          );
         } else {
           outputs.slice(0, -3).forEach((line) => {
             if (!AXIOMS.includes(line)) {
               result = "FAILED";
-              judgerComments.push("checker reports extra axioms")
+              judgerComments.push("checker reports extra axioms");
               return;
             }
           });
@@ -102,7 +103,9 @@ async function main() {
             judgerComment,
           },
           {
-            auth: AUTH,
+            headers: {
+              Authorization: `Bearer ${JUDGER_SECRET}`,
+            },
           }
         );
       });
