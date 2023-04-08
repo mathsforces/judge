@@ -5,9 +5,9 @@ import axios from "axios";
 import { LeanOutput, Problem, Submission, SubmissionResult } from "./types";
 dotenv.config();
 
-// const SUBMISSION_ID = Number.parseInt(process.env.SUBMISSION_ID!);
+const SUBMISSION_ID = Number.parseInt(process.env.SUBMISSION_ID!);
 const JUDGER_SECRET = process.env.JUDGER_SECRET!;
-const API_ENDPOINT = `${process.env.API_ENDPOINT}`;
+const API_ENDPOINT = process.env.API_ENDPOINT!;
 const AXIOMS = [
   "axiom propext : Π {a b : Prop}, (a <-> b) -> a = b",
   "axiom classical.choice : Π {α : Sort u}, nonempty α -> α",
@@ -89,7 +89,7 @@ async function main() {
         const judgerComment = judgerComments.join("\n");
         // upload result
         axios.post(
-          API_ENDPOINT,
+          `${API_ENDPOINT}/${SUBMISSION_ID}`,
           {
             judgingStartedAt: START_TIME,
             judgingFinishedAt: END_TIME,
