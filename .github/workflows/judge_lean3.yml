@@ -11,8 +11,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
-      
       - name: Cache Lean 3
         id: cache-lean3
         uses: actions/cache@v3
@@ -43,6 +41,9 @@ jobs:
           pipx install mathlibtools
           leanpkg configure
           leanproject get-mathlib-cache
+      
+      - name: npm install
+        run: npm install
 
       - name: Judge
         env:
@@ -50,7 +51,6 @@ jobs:
           SUBMISSION_ID: ${{ github.event.client_payload.submission_id }}
           JUDGER_SECRET: ${{ secrets.JUDGER_SECRET }}
         run: |
-          source ~/.profile
           npm install
           npm run start
       
