@@ -42,7 +42,7 @@ jobs:
           leanpkg configure
           leanproject get-mathlib-cache
       
-      - name: npm install
+      - name: Setup Node Packages
         run: npm install
 
       - name: Judge
@@ -51,6 +51,6 @@ jobs:
           SUBMISSION_ID: ${{ github.event.client_payload.submission_id }}
           JUDGER_SECRET: ${{ secrets.JUDGER_SECRET }}
         run: |
-          npm install
+          source ~/.profile
           npm run start
       
